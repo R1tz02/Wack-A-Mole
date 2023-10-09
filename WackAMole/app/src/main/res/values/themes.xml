@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.WackAMole" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.WackAMole" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/blue_500</item>
         <item name="colorPrimaryDark">@color/blue_700</item>
     </style>
