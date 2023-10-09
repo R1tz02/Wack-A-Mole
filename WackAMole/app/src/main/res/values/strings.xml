@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Wack A Mole</string>
+    <string name="new_game">New Game</string>
 </resources>
