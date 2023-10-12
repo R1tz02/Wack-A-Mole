@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         timeTxtView = findViewById(R.id.timer)
 
         newGameButt.setOnClickListener(this::newGameBtnClick)
+        game = WackAMole()
     }
 
     private fun newGameBtnClick(view: View) {
