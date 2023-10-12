@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
             // when the time is up
             override fun onFinish() {
                 game.gameOver()
-                Toast
+                val text = getString(R.string.gameOver, game.getScore())
+                Toast.makeText(applicationContext , text, Toast.LENGTH_LONG).show()
             }
         }.start()
 

@@ -28,6 +28,10 @@ class WackAMole {
         board[row][col] = true
     }
 
+    fun getScore() : Int {
+        return score
+    }
+
     fun gameOver(){
         for(row in 0 until BOARD_SIZE){
             for(col in 0 until BOARD_SIZE) {
