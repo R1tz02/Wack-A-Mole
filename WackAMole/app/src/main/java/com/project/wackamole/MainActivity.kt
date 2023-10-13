@@ -5,14 +5,17 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.Button
+import android.widget.GridLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.children
 import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var newGameButt: Button
     private lateinit var timeTxtView: TextView
+    private lateinit var moleGridLayout: GridLayout
     private lateinit var game: WackAMole
 
 
@@ -22,6 +25,10 @@ class MainActivity : AppCompatActivity() {
 
         newGameButt = findViewById(R.id.new_game_button)
         timeTxtView = findViewById(R.id.timer)
+        moleGridLayout = findViewById(R.id.mole_grid)
+        for(gridButton in moleGridLayout.children) {
+            gridButton.setOnClickListener(this::wackAMoleClick)
+        }
 
         newGameButt.setOnClickListener(this::newGameBtnClick)
         game = WackAMole()
@@ -52,7 +59,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    private fun wackAMoleClick(view: View){
+        //taken from Lights Out Program
+        val buttonIndex = moleGridLayout.indexOfChild(view)
+        val row = buttonIndex / BOARD_SIZE
+        val col = buttonIndex % BOARD_SIZE
+        game.wackAMole(row, col)
+    }
 
 
 }
