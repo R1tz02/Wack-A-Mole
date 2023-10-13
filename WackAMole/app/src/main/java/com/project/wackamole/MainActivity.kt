@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import org.w3c.dom.Text
 
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun newGameBtnClick(view: View) {
         game.newGame()
+        setMole()
 
         //Code from https://www.geeksforgeeks.org/countdowntimer-in-android-using-kotlin/
 
@@ -65,7 +67,23 @@ class MainActivity : AppCompatActivity() {
         val row = buttonIndex / BOARD_SIZE
         val col = buttonIndex % BOARD_SIZE
         game.wackAMole(row, col)
+        setMole()
     }
 
+    private fun setMole(){
+        for(buttonIndex in 0 until moleGridLayout.childCount){
+            val gridButton = moleGridLayout.getChildAt(buttonIndex)
+            val row = buttonIndex / BOARD_SIZE
+            val col = buttonIndex % BOARD_SIZE
+            if(game.molePresent(row, col)){
+                gridButton.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow))
+                gridButton.contentDescription = this.getString(R.string.Mole)
+            }
+            else {
+                gridButton.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+                gridButton.contentDescription = this.getString(R.string.Hill)
+            }
+        }
+    }
 
 }

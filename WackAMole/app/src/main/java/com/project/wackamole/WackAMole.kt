@@ -9,9 +9,7 @@ class WackAMole {
     private var board = Array(BOARD_SIZE) { BooleanArray(BOARD_SIZE) {false} }
     private var score = 0
 
-    private fun isOn(row:Int, col:Int) : Boolean {
-        return board[row][col]
-    }
+
 
     private fun incrementScore(){
         score++
@@ -31,6 +29,9 @@ class WackAMole {
     fun getScore() : Int {
         return score
     }
+    fun molePresent(row:Int, col:Int) : Boolean {
+        return board[row][col]
+    }
 
     fun gameOver(){
         for(row in 0 until BOARD_SIZE){
@@ -42,7 +43,7 @@ class WackAMole {
 
     fun wackAMole(row:Int, col:Int)
     {
-        if(isOn(row, col)) {
+        if(molePresent(row, col)) {
             incrementScore()
             board[row][col] = false
             val newRow = Random.nextInt(2)
