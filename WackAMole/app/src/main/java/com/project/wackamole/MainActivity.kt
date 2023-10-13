@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var timeTxtView: TextView
     private lateinit var moleGridLayout: GridLayout
     private lateinit var game: WackAMole
+    private lateinit var scoreTxtView: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         newGameButt = findViewById(R.id.new_game_button)
         timeTxtView = findViewById(R.id.timer)
+        scoreTxtView = findViewById(R.id.score)
         moleGridLayout = findViewById(R.id.mole_grid)
         for(gridButton in moleGridLayout.children) {
             gridButton.setOnClickListener(this::wackAMoleClick)
@@ -54,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             // when the time is up
             override fun onFinish() {
                 game.gameOver()
+                setMole()
                 val text = getString(R.string.gameOver, game.getScore())
                 Toast.makeText(applicationContext , text, Toast.LENGTH_LONG).show()
             }
@@ -67,9 +70,11 @@ class MainActivity : AppCompatActivity() {
         val row = buttonIndex / BOARD_SIZE
         val col = buttonIndex % BOARD_SIZE
         game.wackAMole(row, col)
+        scoreTxtView.text = game.getScore().toString()
         setMole()
     }
 
+    //Sets the color of the buttons
     private fun setMole(){
         for(buttonIndex in 0 until moleGridLayout.childCount){
             val gridButton = moleGridLayout.getChildAt(buttonIndex)

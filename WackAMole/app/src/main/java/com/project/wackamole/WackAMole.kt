@@ -46,8 +46,14 @@ class WackAMole {
         if(molePresent(row, col)) {
             incrementScore()
             board[row][col] = false
-            val newRow = Random.nextInt(2)
-            val newCol = Random.nextInt(2)
+            var newRow: Int
+            var newCol: Int
+            do {
+                newRow = Random.nextInt(2)
+                newCol = Random.nextInt(2)
+            }while(newRow == row && newCol == col)
+
+            
             board[newRow][newCol] = true
         }
     }
