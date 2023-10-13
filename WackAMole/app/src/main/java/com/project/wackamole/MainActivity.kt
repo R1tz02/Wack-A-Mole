@@ -59,9 +59,13 @@ class MainActivity : AppCompatActivity() {
                 setMole()
                 val text = getString(R.string.gameOver, game.getScore())
                 Toast.makeText(applicationContext , text, Toast.LENGTH_LONG).show()
+                newGameButt.isClickable = true
+                newGameButt.alpha = 1F
             }
         }.start()
-
+        //found these properties by trial and error
+        newGameButt.isClickable = false
+        newGameButt.alpha = 0.5F
     }
 
     private fun wackAMoleClick(view: View){
