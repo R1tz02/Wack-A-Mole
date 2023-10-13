@@ -49,8 +49,8 @@ class WackAMole {
             var newRow: Int
             var newCol: Int
             do {
-                newRow = Random.nextInt(2)
-                newCol = Random.nextInt(2)
+                newRow = Random.nextInt(3)
+                newCol = Random.nextInt(3)
             }while(newRow == row && newCol == col)
 
             
