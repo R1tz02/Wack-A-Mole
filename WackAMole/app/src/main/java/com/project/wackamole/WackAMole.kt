@@ -29,6 +29,11 @@ class WackAMole {
     fun getScore() : Int {
         return score
     }
+
+    fun setScore(value: Int)
+    {
+        score = value
+    }
     fun molePresent(row:Int, col:Int) : Boolean {
         return board[row][col]
     }
