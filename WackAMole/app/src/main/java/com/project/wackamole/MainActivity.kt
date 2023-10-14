@@ -38,16 +38,17 @@ class MainActivity : AppCompatActivity() {
         game = WackAMole()
 
         if (savedInstanceState != null) {
-            newGameButt.isClickable = false
-            newGameButt.alpha = 0.5F
             timeRemaining = savedInstanceState.getLong("CURRENT_TIME")
             game.setScore(savedInstanceState.getInt("GAME_SCORE"))
             game.state = savedInstanceState.getBooleanArray("GAME_STATE")!!
             timeTxtView.text = timeRemaining.toString()
             scoreTxtView.text = game.getScore().toString()
             setMole()
-            if(timeRemaining != 0)
+            if(timeRemaining != 0L) {
+                newGameButt.isClickable = false
+                newGameButt.alpha = 0.5F
                 setTime(timeRemaining)
+            }
         }
     }
 
