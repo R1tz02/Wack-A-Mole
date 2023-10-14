@@ -69,7 +69,7 @@ class WackAMole {
     //State Preservation
     var state: BooleanArray
         get(){
-            val stateArray = booleanArrayOf()
+            val stateArray = BooleanArray(BOARD_SIZE * BOARD_SIZE)
             var index = 0
             for(row in 0 until BOARD_SIZE){
                 for(col in 0 until BOARD_SIZE){

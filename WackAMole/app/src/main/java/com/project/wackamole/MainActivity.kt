@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         scoreTxtView = findViewById(R.id.score)
         moleGridLayout = findViewById(R.id.mole_grid)
         for(gridButton in moleGridLayout.children) {
+            gridButton.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
             gridButton.setOnClickListener(this::wackAMoleClick)
         }
 
@@ -37,13 +38,16 @@ class MainActivity : AppCompatActivity() {
         game = WackAMole()
 
         if (savedInstanceState != null) {
+            newGameButt.isClickable = false
+            newGameButt.alpha = 0.5F
             timeRemaining = savedInstanceState.getLong("CURRENT_TIME")
             game.setScore(savedInstanceState.getInt("GAME_SCORE"))
             game.state = savedInstanceState.getBooleanArray("GAME_STATE")!!
             timeTxtView.text = timeRemaining.toString()
             scoreTxtView.text = game.getScore().toString()
             setMole()
-            setTime(timeRemaining)
+            if(timeRemaining != 0)
+                setTime(timeRemaining)
         }
     }
 
