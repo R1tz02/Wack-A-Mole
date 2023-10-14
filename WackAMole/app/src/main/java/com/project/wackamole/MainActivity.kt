@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var moleGridLayout: GridLayout
     private lateinit var game: WackAMole
     private lateinit var scoreTxtView: TextView
-
+    private var timeRemaining:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,34 +35,31 @@ class MainActivity : AppCompatActivity() {
 
         newGameButt.setOnClickListener(this::newGameBtnClick)
         game = WackAMole()
+
+        if (savedInstanceState != null) {
+            timeRemaining = savedInstanceState.getLong("CURRENT_TIME")
+            game.setScore(savedInstanceState.getInt("GAME_SCORE"))
+            game.state = savedInstanceState.getBooleanArray("GAME_STATE")!!
+            timeTxtView.text = timeRemaining.toString()
+            scoreTxtView.text = game.getScore().toString()
+            setMole()
+            setTime(timeRemaining)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("GAME_SCORE", game.getScore())
+        outState.putLong("CURRENT_TIME", timeRemaining)
+        outState.putBooleanArray("GAME_STATE", game.state)
     }
 
     private fun newGameBtnClick(view: View) {
         game.newGame()
         setMole()
+        timeRemaining = 30000
+        setTime(timeRemaining)
 
-        //Code from https://www.geeksforgeeks.org/countdowntimer-in-android-using-kotlin/
-
-        // time count down for 30 seconds,
-        // with 1 second as countDown interval
-        object : CountDownTimer(30000, 1000) {
-
-            // Callback function, fired on regular interval
-            override fun onTick(millisUntilFinished: Long) {
-                timeTxtView.text = (millisUntilFinished / 1000).toString()
-            }
-
-            // Callback function, fired
-            // when the time is up
-            override fun onFinish() {
-                game.gameOver()
-                setMole()
-                val text = getString(R.string.gameOver, game.getScore())
-                Toast.makeText(applicationContext , text, Toast.LENGTH_LONG).show()
-                newGameButt.isClickable = true
-                newGameButt.alpha = 1F
-            }
-        }.start()
         //found these properties by trial and error
         newGameButt.isClickable = false
         newGameButt.alpha = 0.5F
@@ -93,6 +90,33 @@ class MainActivity : AppCompatActivity() {
                 gridButton.contentDescription = this.getString(R.string.Hill)
             }
         }
+    }
+
+    private fun setTime(timeRemain: Long)
+    {
+        //Code from https://www.geeksforgeeks.org/countdowntimer-in-android-using-kotlin/
+
+        // time count down for 30 seconds,
+        // with 1 second as countDown interval
+        object : CountDownTimer(timeRemain, 1000) {
+
+            // Callback function, fired on regular interval
+            override fun onTick(millisUntilFinished: Long) {
+                timeTxtView.text = (millisUntilFinished / 1000).toString()
+                timeRemaining = millisUntilFinished
+            }
+
+            // Callback function, fired
+            // when the time is up
+            override fun onFinish() {
+                game.gameOver()
+                setMole()
+                val text = getString(R.string.gameOver, game.getScore())
+                Toast.makeText(applicationContext , text, Toast.LENGTH_LONG).show()
+                newGameButt.isClickable = true
+                newGameButt.alpha = 1F
+            }
+        }.start()
     }
 
 }
