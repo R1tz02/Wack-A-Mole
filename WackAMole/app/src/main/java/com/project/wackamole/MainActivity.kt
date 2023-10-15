@@ -1,5 +1,8 @@
 package com.project.wackamole
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -8,6 +11,8 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import org.w3c.dom.Text
@@ -21,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var game: WackAMole
     private lateinit var scoreTxtView: TextView
     private var timeRemaining:Long = 0
+    private var moleColor: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         newGameButt.setOnClickListener(this::newGameBtnClick)
         settingsButt.setOnClickListener(this::settingsBtnClick)
+        moleColor = ContextCompat.getColor(this, R.color.yellow)
         game = WackAMole()
 
         if (savedInstanceState != null) {
@@ -46,6 +53,7 @@ class MainActivity : AppCompatActivity() {
             game.state = savedInstanceState.getBooleanArray("GAME_STATE")!!
             timeTxtView.text = timeRemaining.toString()
             scoreTxtView.text = game.getScore().toString()
+            moleColor = savedInstanceState.getInt("MOLE_COLOR")
             setMole()
             if(timeRemaining != 0L) {
                 newGameButt.isClickable = false
@@ -60,10 +68,21 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("GAME_SCORE", game.getScore())
         outState.putLong("CURRENT_TIME", timeRemaining)
         outState.putBooleanArray("GAME_STATE", game.state)
+        outState.putInt("MOLE_COLOR", moleColor)
     }
 
     private fun settingsBtnClick(view: View)  {
+        val intent = Intent(this, SettingsActivity::class.java)
+        settingsResultLauncher.launch(intent)
+    }
 
+    private val settingsResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result ->
+            if(result.resultCode == Activity.RESULT_OK) {
+                val colorId = result.data!!.getIntExtra(MOLE_COLOR, R.color.yellow)
+                moleColor = ContextCompat.getColor(this, colorId)
+                setMole()
+            }
     }
 
     private fun newGameBtnClick(view: View) {
@@ -94,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             val row = buttonIndex / BOARD_SIZE
             val col = buttonIndex % BOARD_SIZE
             if(game.molePresent(row, col)){
-                gridButton.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow))
+                gridButton.setBackgroundColor(moleColor)
                 gridButton.contentDescription = this.getString(R.string.Mole)
             }
             else {
