@@ -14,6 +14,7 @@ import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var settingsButt: Button
     private lateinit var newGameButt: Button
     private lateinit var timeTxtView: TextView
     private lateinit var moleGridLayout: GridLayout
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        settingsButt = findViewById(R.id.settings_button)
         newGameButt = findViewById(R.id.new_game_button)
         timeTxtView = findViewById(R.id.timer)
         scoreTxtView = findViewById(R.id.score)
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         newGameButt.setOnClickListener(this::newGameBtnClick)
+        settingsButt.setOnClickListener(this::settingsBtnClick)
         game = WackAMole()
 
         if (savedInstanceState != null) {
@@ -57,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("GAME_SCORE", game.getScore())
         outState.putLong("CURRENT_TIME", timeRemaining)
         outState.putBooleanArray("GAME_STATE", game.state)
+    }
+
+    private fun settingsBtnClick(view: View)  {
+
     }
 
     private fun newGameBtnClick(view: View) {

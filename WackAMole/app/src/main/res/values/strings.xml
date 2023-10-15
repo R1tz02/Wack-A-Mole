@@ -7,4 +7,5 @@
     <string name="gameOver">Game Over! Your score was: %1$d</string>
     <string name="Mole">Mole</string>>
     <string name="Hill">Hill</string>
+    <string name="choose_color">Choose a color for the mole:</string>
 </resources>
