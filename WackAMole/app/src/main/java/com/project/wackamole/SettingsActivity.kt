@@ -16,10 +16,22 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        var yellowBtn = findViewById<RadioButton>(R.id.radio_yellow)
-        var greenBtn = findViewById<RadioButton>(R.id.radio_green)
-        var blueBtn = findViewById<RadioButton>(R.id.radio_blue)
-        var redBtn = findViewById<RadioButton>(R.id.radio_red)
+        colorId = intent.getIntExtra(MOLE_COLOR, R.color.yellow)
+
+        val radioId = when (colorId) {
+            R.color.red -> R.id.radio_red
+            R.color.blue -> R.id.radio_blue
+            R.color.green -> R.id.radio_green
+            else -> R.id.radio_yellow
+        }
+
+        val radioButton = findViewById<RadioButton>(radioId)
+        radioButton.isChecked = true
+
+        val yellowBtn = findViewById<RadioButton>(R.id.radio_yellow)
+        val greenBtn = findViewById<RadioButton>(R.id.radio_green)
+        val blueBtn = findViewById<RadioButton>(R.id.radio_blue)
+        val redBtn = findViewById<RadioButton>(R.id.radio_red)
         val okBtn = findViewById<Button>(R.id.okBtn)
 
         yellowBtn.setOnClickListener(this::onColorSelected)

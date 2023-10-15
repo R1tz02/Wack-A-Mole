@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var scoreTxtView: TextView
     private var timeRemaining:Long = 0
     private var moleColor: Int = 0
+    private var moleColorId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         newGameButt.setOnClickListener(this::newGameBtnClick)
         settingsButt.setOnClickListener(this::settingsBtnClick)
         moleColor = ContextCompat.getColor(this, R.color.yellow)
+        moleColorId = R.color.yellow
         game = WackAMole()
 
         if (savedInstanceState != null) {
@@ -73,14 +75,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun settingsBtnClick(view: View)  {
         val intent = Intent(this, SettingsActivity::class.java)
+        intent.putExtra(MOLE_COLOR, moleColorId)
         settingsResultLauncher.launch(intent)
     }
 
     private val settingsResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result ->
             if(result.resultCode == Activity.RESULT_OK) {
-                val colorId = result.data!!.getIntExtra(MOLE_COLOR, R.color.yellow)
-                moleColor = ContextCompat.getColor(this, colorId)
+                moleColorId = result.data!!.getIntExtra(MOLE_COLOR, R.color.yellow)
+                moleColor = ContextCompat.getColor(this, moleColorId)
                 setMole()
             }
     }
